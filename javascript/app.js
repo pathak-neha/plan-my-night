@@ -45,8 +45,8 @@ function geoFire_getNearby(geoFireObj, loc, rad) {
     var results = [];
     var query = geoFireObj.query({center: loc, radius: rad});
     query.on('key_entered', function(key, loc, distance) {
-        geoFireObj.ref().once('value', function(snap) {
-                var name = snap.val().index[key].name;
+        geoFireObj.ref().child('index/' + key).once('value', function(snap) {
+                var name = snap.val().name;
                 results.push(name);
 
                 console.log(name + ' is ' + Math.round(distance) + ' km from this location');
