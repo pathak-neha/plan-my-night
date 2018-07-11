@@ -14,57 +14,37 @@ function initMap(){
        
     };
     activateSearch();
-   
-
-
 }
 
-function geoFire_set(resultsArray, nameProperty, latProperty, lngProperty) {
-    //  -- converts results array to an object and saves as a GeoFire instance
-    //  -- first parameter is results array
-    //  -- other parameters are strings giving the property names for 
-    //  event name, latitude and longitude in this result set
-    // -- returns the new GeoFire object
+function getNearbyRestaurants(location, radius) {
+    //  -- takes location [lat, lng] and radius (m)
+    //  -- returns promise -- use .then() to get response
 
-    var newRef = firebase.database().ref('Geofire').push();
-    var newGeoFireInstance = new GeoFire(newRef);
+    return new Promise(function(resolve, reject) {
+        var loc = new google.maps.LatLng(location[0], location[1]);
 
-    var buildObject = new Object();
-    resultsArray.forEach(function(newLocation, i) {
-        coords = [parseFloat(newLocation[latProperty]), parseFloat(newLocation[lngProperty])];
-        buildObject[i] = coords;
-        
-        firebase.database()
-            .ref('Geofire/' + thisRef.key + '/index/' + i)
-            .set({name: newLocation[nameProperty]});
+        var service = new google.maps.places.PlacesService(document.createElement('div'));
+        service.nearbySearch({
+            location: loc,
+            radius: radius,
+            type: ['restaurant']
+            }, function(response, status) {
+
+                if(status == 'OK') {
+                    console.log(response);
+                    var returnArr = response.map(function(obj) {
+
+                        var newObj = {
+                            type: 'restaurant',
+                            name: obj.name,
+                            googleID: obj.id
+                        }
+                        return newObj;
+                    })
+                    resolve(returnArr);
+                }
+            }
+        );
     })
-
-    newGeoFireInstance
-        .set(buildObject)
-        .then(function() {
-            console.log('New locations have been saved to firebase.');
-        })
-
-    return newGeoFireInstance;
-}
-
-function geoFire_getNearby(geoFireObject, loc, rad) {
-    //  -- takes a geoFire instance, location [lat, long] and radius(km)
-    //  -- returns array of names (from stored index) of stored locations within the search radius
-
-    var results = [];
-    var query = geoFireObject.query({center: loc, radius: rad});
-    query.on('key_entered', function(key, loc, distance) {
-        
-        geoFireObject.ref().once('value', function(snap) {
-            var name = snap.val().index[key].name;
-            results.push(name);
-
-            console.log(name + ' is ' + Math.round(distance) + ' km from this location');
-        })
-
-    });
-
-    return results;
-}
+};
 
