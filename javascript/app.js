@@ -55,3 +55,14 @@ function geoFire_getNearby(geoFireObj, loc, rad) {
 
     return results;
 }
+
+function findMidpoint(location1, location2) {
+    // -- finds midpoint between locations [lat, lng]
+    // -- returns midpoint [lat, lng]
+
+    var midLat = (location1[0] + location2[0]) / 2;
+    var midLng = (location1[1] + location2[1]) / 2;
+    var midpoint = [midLat, midLng];
+
+    return midpoint;
+}
