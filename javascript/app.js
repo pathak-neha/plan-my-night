@@ -14,8 +14,6 @@ function initMap(){
        
     };
     activateSearch();
-   
-
 
 };
 
@@ -37,6 +35,7 @@ $('#search-btn').on('click', function (event) {
     EVDB.API.call("/events/search", oArgs, function (oData) {
         var result = oData;
         var eventsArray = result.events.event;
+        console.log('eventful response ---------------');
         console.log(eventsArray);
         for (i=0; i < eventsArray.length; i++) {
             var num = i+1
@@ -44,4 +43,27 @@ $('#search-btn').on('click', function (event) {
         };
     });
 });
+
+function convertEventful(eventfulArr) {
+
+    var newArray = eventfulArr.map(function(obj) {
+        var newObj = {
+            name: obj.title,
+            venue: obj.venue_name,
+            venueURL: obj.venue_url,
+            location: [obj.latitude, obj.longitude],
+            startTime: obj.start_time,
+            eventfulID: obj.id
+        }
+        if(obj.image !== null) {
+            newObj.imageURL = obj.image.medium.url;
+        } else {
+            newObj.imageURL = 'https://picsum.photos/128';
+        }
+
+        return newObj;
+    })
+
+    return newArray;
+}
 
