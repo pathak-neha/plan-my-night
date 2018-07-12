@@ -248,4 +248,197 @@ $("#submit").on("click", function () {
 })
 
 //////////////////////////////////////////////////////////////////
+
+////////////////////////////////Google Map Locator//////////
+
+var Waypoints= []; 
+var currentAddress;
+var eventLocations= [{location: 'Thornhill, ON'}, {location: 'richmondhill, on'},{location: 'vaughan, on'}];
+var Origin; 
+
+$("#getCurrentLoc").on("click", function () {
+  event.preventDefault();
+Origin=document.getElementById("currentAddress").value;
+Destination=Origin;
+console.log("current address: "+Origin)
+})
+
+var pointer;
+var locName;
+
+for (i=0;i<eventLocations.length;i++){
+pointer=i;
+locName=eventLocations[i].location;
+checkBoxMaker(pointer,locName)
+}
+/////////////////////
+function checkBoxMaker(pointer, locName) {
+   var input = $("<input>");
+   input.attr("id","Point-"+pointer)
+   input.attr("name","Point-"+pointer)
+   input.attr("value",locName)
+   input.attr("type","checkbox")
+
+   var label=$("<label>")
+   label.attr("for","Point-"+pointer)
+   label.text(locName)
+   $("#locations").append(input,label);
+
+};
+
+///////////////////////
+
+
+$(":checkbox").click(function(){
+  
+  $("#right-panel").empty();
+    
+ 
+  var id = $(this).attr('id');
+   var loc=$(this).attr('value')
+  
+  var checkBox=document.getElementById(id)
+  var Testination;
+
+   if (checkBox.checked == true){
+
+ console.log(Waypoints.indexOf(loc));
+ var isAvailable=Waypoints.findIndex(i => i.location === loc);
+ console.log("is available"+isAvailable)
+ if(isAvailable === -1){
+ console.log(Waypoints.findIndex(i => i.location === loc))
+ Waypoints.push({location: loc});
+
+  console.log(Destination)
+
+  initMap();
+
+ console.log(loc)
+ console.log(Waypoints)
+}else{
+ console.log(Waypoints)
+}
+
+} else{
+
+var indexLoc=Waypoints.findIndex(i => i.location === loc);
+console.log("in kos kesho pak kon  "+loc)
+Waypoints.splice(indexLoc,1)
+console.log(Waypoints)
+
+initMap();
+
+}
+
+});    
+
+ function initMap() {
+   var map = new google.maps.Map(document.getElementById('map'), {
+     zoom: 4,
+     center: {lat: 43.8205895, lng: -79.391605}  // Richmondhill.
+   });
+
+   var directionsService = new google.maps.DirectionsService;
+   var directionsDisplay = new google.maps.DirectionsRenderer({
+     draggable: true,
+     map: map,
+     panel: document.getElementById('right-panel')
+   });
+
+ 
+   
+   displayRoute(Origin, Destination, directionsService,
+       directionsDisplay);
+ }
+
+ function displayRoute(origin, destination, service, display) {
+   service.route({
+     origin: Origin,
+     destination: Destination,
+     waypoints: Waypoints, 
+     travelMode: 'DRIVING',
+     avoidTolls: true
+   }, function(response, status) {
+     if (status === 'OK') {
+       display.setDirections(response);
+     } else {
+       alert('Could not display directions due to: ' + status);
+     }
+   });
+ }
+
+ function computeTotalDistance(result) {
+   var total = 0;
+   var myroute = result.routes[0];
+   for (var i = 0; i < myroute.legs.length; i++) {
+     total += myroute.legs[i].distance.value;
+   }
+   total = total / 1000;
+   document.getElementById('total').innerHTML = total + ' km';
+ }
+
+
+
+
+
+///////////current location/////////////////
+
+
+var currgeocoder;
+
+ 
+
+    navigator.geolocation.getCurrentPosition(function(position, html5Error) {
+     
+        geo_loc = processGeolocationResult(position);
+        currLatLong = geo_loc.split(",");
+        initializeCurrent(currLatLong[0], currLatLong[1]);
+
+   });
+
+   
+
+  function processGeolocationResult(position) {
+        html5Lat = position.coords.latitude; //Get latitude
+        html5Lon = position.coords.longitude; //Get longitude
+        html5TimeStamp = position.timestamp; //Get timestamp
+        html5Accuracy = position.coords.accuracy; //Get accuracy in meters
+        return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
+  }
+
+   //Check value is present or not & call google api function
+
+   function initializeCurrent(latcurr, longcurr) {
+        currgeocoder = new google.maps.Geocoder();
+        console.log(latcurr + "-- ######## --" + longcurr);
+
+        if (latcurr != '' && longcurr != '') {
+            var myLatlng = new google.maps.LatLng(latcurr, longcurr);
+            return getCurrentAddress(myLatlng);
+        }
+  }
+
+   //Get current address
+
+    function getCurrentAddress(location) {
+         currgeocoder.geocode({
+             'location': location
+
+       }, function(results, status) {
+      
+           if (status == google.maps.GeocoderStatus.OK) {
+               console.log(results[0]);
+               $("#address").html(results[0].formatted_address);
+               currentAddress=results[0].formatted_address;
+               
+           } else {
+               alert('Geocode was not successful for the following reason: ' + status);
+           }
+       });
+    }
+
+ 
+
+////////////////////////////////////////////////////////////////
+
 })
