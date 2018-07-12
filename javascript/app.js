@@ -15,10 +15,39 @@ function initMap(){
        
     };
     activateSearch();
-   
-
-
 }
+
+function getNearbyRestaurants(location, radius) {
+    //  -- takes location [lat, lng] and radius (m)
+    //  -- returns promise -- use .then() to get response
+
+    return new Promise(function(resolve, reject) {
+        var loc = new google.maps.LatLng(location[0], location[1]);
+
+        var service = new google.maps.places.PlacesService(document.createElement('div'));
+        service.nearbySearch({
+            location: loc,
+            radius: radius,
+            type: ['restaurant']
+            }, function(response, status) {
+
+                if(status == 'OK') {
+                    console.log(response);
+                    var returnArr = response.map(function(obj) {
+
+                        var newObj = {
+                            type: 'restaurant',
+                            name: obj.name,
+                            googleID: obj.id
+                        }
+                        return newObj;
+                    })
+                    resolve(returnArr);
+                }
+            }
+        );
+    })
+};
 
 ///////////////////////////////// Initialize Firebase/////////////////////////////////////////////
 var config = {
