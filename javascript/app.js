@@ -425,24 +425,28 @@ $('#submit-btn').on('click', function (event) {
         app_key: eventfulKey,
         where: latSearch + ',' + lngSearch,
         within: 25,
-        "date": "2018071900-2018081900",
+        "date": "TODAY",
         page_size: 25,
         sort_order: "popularity"
     }
+
+    // display search message (bc API response can be slow)
+    $('#eventful-results').html('<span>Searching for nearby events...</span>');
+
+    // API call
     EVDB.API.call("/events/search", oArgs, function (oData) {
         var result = oData;
         var eventsArray = result.events.event;
         console.log(eventsArray);
         var newArray = convertEventful(eventsArray);
 
-        console.log(newArray[0].imageURL)
         $('#eventful-results').empty();
         for (i=0; i < newArray.length; i++) {
             $('#eventful-results').append(
-                '<div class="col-2" data-location= "' + newArray[i].location + '">   <img src="' + 
-                newArray[i].imageURL + '" alt="" ></div> <div class="col-10"><h3>' + 
+                '<div class="col eventful-result" data-location= "' + newArray[i].location + '"><img src="' + 
+                newArray[i].imageURL + '" alt="" > <div class="col-10"><h3>' + 
                 newArray[i].name +' </h3><br> <strong> Venue: </strong>' +
-                newArray[i].venue +'  </div><hr>' )
+                newArray[i].venue +'  </div><hr> </div>' )
 
 
             // var num = i+1
@@ -453,6 +457,9 @@ $('#submit-btn').on('click', function (event) {
  });
 
  function convertEventful(eventfulArr) {
+    // -- takes Eventful JSON response, converts into an array of simpler objects
+    // -- returns new array
+
     var newArray = eventfulArr.map(function(obj) {
         var newObj = {
             name: obj.title,
@@ -472,15 +479,20 @@ $('#submit-btn').on('click', function (event) {
     return newArray;
 }
 
+$('#eventful-results').on('click', '.eventful-result', function() {
+  //  --click event, logs restaurants from Google Places within 1 km
+  //  based on 'data-location' attribute of clicked element
 
-
+  var loc = $(this).data('location').split(',');
+  getNearbyRestaurants(loc, 1000).then(function(response) {
+      console.log('onClick nearby restaurants response -----------------');
+      console.log(response);
+  })
+})
 
 // function initMap(){
     
 // }
-
-
-
 
 function getNearbyRestaurants(location, radius) {
     //  -- takes location [lat, lng] and radius (m)
@@ -513,4 +525,6 @@ function getNearbyRestaurants(location, radius) {
         });
     };
 
+
 });
+
