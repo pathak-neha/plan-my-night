@@ -48,3 +48,14 @@ function getNearbyRestaurants(location, radius) {
     })
 };
 
+$('#div-test').on('click', function() {
+    //  --click event, returns restaurants from Google Places within 1 km
+    //  based on 'data-location' attribute of clicked element
+
+    var loc = $(this).data('location').split(',');
+    getNearbyRestaurants(loc, 1000).then(function(response) {
+        console.log('onClick response -----------------');
+        console.log(response);
+    })
+})
+
