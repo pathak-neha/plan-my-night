@@ -1,53 +1,4 @@
 $(document).ready(function () {
-function initMap(){
-    
-    function activateSearch(){
-        var input = document.getElementById('search-term');
-       var autoComplete = new google.maps.places.Autocomplete(input);
-       google.maps.event.addListener(autoComplete, 'place_changed', function(){
-        var place = autoComplete.getPlace();
-        var name = place.name;
-        var lat = place.geometry.location.lat();
-        var lng = place.geometry.location.lng();
-        console.log("name: " + name + " lat: " + lat + " lng: " + lng)
-       });
-      
-       
-    };
-    activateSearch();
-}
-
-function getNearbyRestaurants(location, radius) {
-    //  -- takes location [lat, lng] and radius (m)
-    //  -- returns promise -- use .then() to get response
-
-    return new Promise(function(resolve, reject) {
-        var loc = new google.maps.LatLng(location[0], location[1]);
-
-        var service = new google.maps.places.PlacesService(document.createElement('div'));
-        service.nearbySearch({
-            location: loc,
-            radius: radius,
-            type: ['restaurant']
-            }, function(response, status) {
-
-                if(status == 'OK') {
-                    console.log(response);
-                    var returnArr = response.map(function(obj) {
-
-                        var newObj = {
-                            type: 'restaurant',
-                            name: obj.name,
-                            googleID: obj.id
-                        }
-                        return newObj;
-                    })
-                    resolve(returnArr);
-                }
-            }
-        );
-    })
-};
 
 ///////////////////////////////// Initialize Firebase/////////////////////////////////////////////
 var config = {
@@ -245,11 +196,15 @@ $("#submit").on("click", function () {
 });
 // var userId = firebase.auth().currentUser.uid;
 
-})
+});
+
+// /////////////////////end of authentication
 
 //////////////////////////////////////////////////////////////////
 
 ////////////////////////////////Google Map Locator//////////
+
+
 
 var Waypoints= []; 
 var currentAddress;
@@ -311,134 +266,251 @@ $(":checkbox").click(function(){
 
   console.log(Destination)
 
-  initMap();
-
- console.log(loc)
- console.log(Waypoints)
-}else{
- console.log(Waypoints)
-}
-
-} else{
-
-var indexLoc=Waypoints.findIndex(i => i.location === loc);
-console.log("in kos kesho pak kon  "+loc)
-Waypoints.splice(indexLoc,1)
-console.log(Waypoints)
-
-initMap();
-
-}
-
-});    
-
- function initMap() {
-   var map = new google.maps.Map(document.getElementById('map'), {
-     zoom: 4,
-     center: {lat: 43.8205895, lng: -79.391605}  // Richmondhill.
-   });
-
-   var directionsService = new google.maps.DirectionsService;
-   var directionsDisplay = new google.maps.DirectionsRenderer({
-     draggable: true,
-     map: map,
-     panel: document.getElementById('right-panel')
-   });
-
  
-   
-   displayRoute(Origin, Destination, directionsService,
-       directionsDisplay);
+  initMap2();
+  console.log(loc)
+  console.log(Waypoints)
+ }else{
+  console.log(Waypoints)
  }
-
- function displayRoute(origin, destination, service, display) {
-   service.route({
-     origin: Origin,
-     destination: Destination,
-     waypoints: Waypoints, 
-     travelMode: 'DRIVING',
-     avoidTolls: true
-   }, function(response, status) {
-     if (status === 'OK') {
-       display.setDirections(response);
-     } else {
-       alert('Could not display directions due to: ' + status);
-     }
-   });
+ 
+ } else{
+ 
+ var indexLoc=Waypoints.findIndex(i => i.location === loc);
+ console.log("in kos kesho pak kon  "+loc)
+ Waypoints.splice(indexLoc,1)
+ console.log(Waypoints)
+ 
+ initMap2();
+ 
  }
+ 
+ });    
+ 
+function initMap2() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: {lat: 43.8205895, lng: -79.391605}  // Richmondhill.
+    });
+ 
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer({
+      draggable: true,
+      map: map,
+      panel: document.getElementById('right-panel')
+    });
 
- function computeTotalDistance(result) {
-   var total = 0;
-   var myroute = result.routes[0];
-   for (var i = 0; i < myroute.legs.length; i++) {
-     total += myroute.legs[i].distance.value;
-   }
-   total = total / 1000;
-   document.getElementById('total').innerHTML = total + ' km';
- }
+    displayRoute(Origin, Destination, directionsService,
+        directionsDisplay);
+  }
 
-
-
-
-
-///////////current location/////////////////
+  
+  function displayRoute(origin, destination, service, display) {
+    service.route({
+      origin: Origin,
+      destination: Destination,
+      waypoints: Waypoints, 
+      travelMode: 'DRIVING',
+      avoidTolls: true
+    }, function(response, status) {
+      if (status === 'OK') {
+        display.setDirections(response);
+      } else {
+        alert('Could not display directions due to: ' + status);
+      }
+    });
+  }
+ 
+  function computeTotalDistance(result) {
+    var total = 0;
+    var myroute = result.routes[0];
+    for (var i = 0; i < myroute.legs.length; i++) {
+      total += myroute.legs[i].distance.value;
+    }
+    total = total / 1000;
+    document.getElementById('total').innerHTML = total + ' km';
+  }
+ 
+ ///////////current location/////////////////
 
 
 var currgeocoder;
 
  
 
-    navigator.geolocation.getCurrentPosition(function(position, html5Error) {
-     
-        geo_loc = processGeolocationResult(position);
-        currLatLong = geo_loc.split(",");
-        initializeCurrent(currLatLong[0], currLatLong[1]);
-
-   });
-
-   
-
-  function processGeolocationResult(position) {
-        html5Lat = position.coords.latitude; //Get latitude
-        html5Lon = position.coords.longitude; //Get longitude
-        html5TimeStamp = position.timestamp; //Get timestamp
-        html5Accuracy = position.coords.accuracy; //Get accuracy in meters
-        return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
-  }
-
-   //Check value is present or not & call google api function
-
-   function initializeCurrent(latcurr, longcurr) {
-        currgeocoder = new google.maps.Geocoder();
-        console.log(latcurr + "-- ######## --" + longcurr);
-
-        if (latcurr != '' && longcurr != '') {
-            var myLatlng = new google.maps.LatLng(latcurr, longcurr);
-            return getCurrentAddress(myLatlng);
-        }
-  }
-
-   //Get current address
-
-    function getCurrentAddress(location) {
-         currgeocoder.geocode({
-             'location': location
-
-       }, function(results, status) {
-      
-           if (status == google.maps.GeocoderStatus.OK) {
-               console.log(results[0]);
-               $("#address").html(results[0].formatted_address);
-               currentAddress=results[0].formatted_address;
-               
-           } else {
-               alert('Geocode was not successful for the following reason: ' + status);
-           }
-       });
-    }
-
+navigator.geolocation.getCurrentPosition(function(position, html5Error) {
  
+    geo_loc = processGeolocationResult(position);
+    currLatLong = geo_loc.split(",");
+    initializeCurrent(currLatLong[0], currLatLong[1]);
 
-////////////////////////////////////////////////////////////////
+});
 
-})
+
+
+function processGeolocationResult(position) {
+    html5Lat = position.coords.latitude; //Get latitude
+    html5Lon = position.coords.longitude; //Get longitude
+    html5TimeStamp = position.timestamp; //Get timestamp
+    html5Accuracy = position.coords.accuracy; //Get accuracy in meters
+    return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
+}
+
+//Check value is present or not & call google api function
+
+function initializeCurrent(latcurr, longcurr) {
+    currgeocoder = new google.maps.Geocoder();
+    console.log(latcurr + "-- ######## --" + longcurr);
+
+    if (latcurr != '' && longcurr != '') {
+        var myLatlng = new google.maps.LatLng(latcurr, longcurr);
+        return getCurrentAddress(myLatlng);
+    }
+}
+
+//Get current address
+
+function getCurrentAddress(location) {
+     currgeocoder.geocode({
+         'location': location
+
+   }, function(results, status) {
+  
+       if (status == google.maps.GeocoderStatus.OK) {
+           console.log(results[0]);
+           $("#address").html(results[0].formatted_address);
+           currentAddress=results[0].formatted_address;
+           
+       } else {
+           alert('Geocode was not successful for the following reason: ' + status);
+       }
+   });
+};
+
+// ///////////////END OF GOOGLE MAP LOCATOR 
+
+
+var latSearch = 0;
+var lngSearch = 0;
+
+function activateSearch(){
+    var input = document.getElementById('search-term');
+   var autoComplete = new google.maps.places.Autocomplete(input);
+   console.log(autoComplete)
+   google.maps.event.addListener(autoComplete, 'place_changed', function(){
+    var place = autoComplete.getPlace();
+    var name = place.name;
+    latSearch = place.geometry.location.lat();
+    lngSearch = place.geometry.location.lng();
+    console.log("name: " + name + " lat: " + latSearch + " lng: " + lngSearch)
+   });
+  
+   
+};
+activateSearch();
+
+
+
+// events API
+
+$('#submit-btn').on('click', function (event) {
+    event.preventDefault();
+    lat = 43.6482130; // temporary - to be linked to Tobi's map geolocation data
+    lng = -79.3890950; // temporary - to be linked to Tobi's map geolocation data
+    var radius = 25;
+    var eventfulKey = 'WF6X75bcVKvW7tKm';
+    // var eventfulURL = 'http://api.eventful.com/json/events/search?app_key=' + eventfulKey + '&where=' + lat + ',' + long + '&within=' + radius;
+    console.log("submit lat: " + latSearch + "lng Submit: " + lngSearch)
+    var oArgs = {
+        app_key: eventfulKey,
+        where: latSearch + ',' + lngSearch,
+        within: 25,
+        "date": "2018071900-2018081900",
+        page_size: 25,
+        sort_order: "popularity"
+    }
+    EVDB.API.call("/events/search", oArgs, function (oData) {
+        var result = oData;
+        var eventsArray = result.events.event;
+        console.log(eventsArray);
+        var newArray = convertEventful(eventsArray);
+
+        console.log(newArray[0].imageURL)
+        $('#eventful-results').empty();
+        for (i=0; i < newArray.length; i++) {
+            $('#eventful-results').append(
+                '<div class="col-2" data-location= "' + newArray[i].location + '">   <img src="' + 
+                newArray[i].imageURL + '" alt="" ></div> <div class="col-10"><h3>' + 
+                newArray[i].name +' </h3><br> <strong> Venue: </strong>' +
+                newArray[i].venue +'  </div><hr>' )
+
+
+            // var num = i+1
+            
+            // $('#eventful-results').append('Event #'+num+': '+eventsArray[i]['title']+'<br> <hr>');
+        }
+    });
+ });
+
+ function convertEventful(eventfulArr) {
+    var newArray = eventfulArr.map(function(obj) {
+        var newObj = {
+            name: obj.title,
+            venue: obj.venue_name,
+            venueURL: obj.venue_url,
+            location: [obj.latitude, obj.longitude],
+            startTime: obj.start_time,
+            eventfulID: obj.id
+        }
+        if(obj.image !== null) {
+            newObj.imageURL = obj.image.medium.url;
+        } else {
+            newObj.imageURL = 'https://picsum.photos/128';
+        }
+        return newObj;
+    })
+    return newArray;
+}
+
+
+
+
+// function initMap(){
+    
+// }
+
+
+
+
+function getNearbyRestaurants(location, radius) {
+    //  -- takes location [lat, lng] and radius (m)
+    //  -- returns promise -- use .then() to get response
+
+    return new Promise(function(resolve, reject) {
+        var loc = new google.maps.LatLng(location[0], location[1]);
+
+        var service = new google.maps.places.PlacesService(document.createElement('div'));
+        service.nearbySearch({
+            location: loc,
+            radius: radius,
+            type: ['restaurant']
+            }, function(response, status) {
+
+                if(status == 'OK') {
+                    console.log(response);
+                    var returnArr = response.map(function(obj) {
+
+                        var newObj = {
+                            type: 'restaurant',
+                            name: obj.name,
+                            googleID: obj.id
+                        }
+                        return newObj;
+                    })
+                    resolve(returnArr);
+                };
+            });
+        });
+    };
+
+});
