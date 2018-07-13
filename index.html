@@ -12,6 +12,12 @@
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+    <!-- Moment.js Reference -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <!-- -->
 
 </head>
 
@@ -30,7 +36,7 @@
         <section id="intro-screen">
             <p><span class="intro">ENTER YOUR LOCATION HERE</p>
             <form>
-                <input class="text-input" type="text" placeholder="Enter address"><br>
+                <input  id="search-term" class="text-input" type="text" placeholder="Enter address"><br>
             </form>
             <br>
             <button class="btn justify-center" id="submit-btn">SUBMIT</button>
@@ -38,29 +44,114 @@
         </section>
 
     </div>
-
     <div class="container">
-        <div class="row card" >
-            <div class="col-12" >
-                <div id="eventful-results"   >
-                   
-
+            <div class="row card" >
+                <div class="col-12" >
+                    <div id="eventful-results"   >
+                       
+    
+                    </div>
+    
+    
+                    
+    
                 </div>
-
-
-                
-
+            </div>
+        </div>
+    
+    <br>
+    <!-- ///////////////Show Profile Div Google////////////////// -->
+    <div class="container google">
+        <div class="row card">
+            <div class="col-sm profile">
+                <img id="quickstart-image-google" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
+            </div>
+            <div class="col-sm profile">
+                <span id="quickstart-sign-in-status-google"></span>
+            </div>
+            <div class="col-sm profile">
+                <p id="quickstart-account-details-google"></p>
             </div>
         </div>
     </div>
 
+    <!-- ///////////////Show Profile Div Facebook////////////////// -->
+    <div class="container facebook">
+        <div class="row card">
+            <div class="col-sm profile">
+                <img id="quickstart-image" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
+            </div>
+            <div class="col-sm profile">
+                <span id="quickstart-sign-in-status-face"></span>
+            </div>
+            <div class="col-sm profile">
+                <p id="quickstart-account-details-face"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ///////////////////////////////////////////////// -->
+
+    <div class="container allLoginContents">
+        <div class="omb_login card">
+            <h3 class="welcomeMsg" style="text-align: center">Welcome to "Our App Name"</h3>
+
+            <!-- ////////////////////////Gmail and facebook Sign In divs/////////////////////////////////////// -->
+            <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                <div class="col-xs-4 col-sm-2">
+                    <button class="btn btn-lg omb_btn-facebook" id="quickstart-sign-in-face">Facebook Sign In</button>
+                </div>
+                <div class="col-xs-4 col-sm-2">
+                    <button class="btn btn-lg omb_btn-google" id="quickstart-sign-in-google">Google Sign In</button>
+                </div>
+                <div class="col-xs-4 col-sm-2">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- ////////////////////////////////////////////// -->
+<!-- ////////////////////Map Locator///////////// -->
+
+<p>Current Location: <span id="address"></span></p>
+Current Location: <input id="currentAddress" type="text">
+<button id="getCurrentLoc" type="button">Get Current Location</button>
+<form id="locations">
+ 
+  </form> 
+
+
+  <p id="text2"></p>
+<div id="map"></div>
+<div id="right-panel">
+<p>Total Distance: <span id="total"></span></p>
+</div>
+
+
+
+<!-- //////////////////////////////////////////////////// -->
+
+    <!-- /////////////////////////////Main App Div//////////////////////////// -->
+<div class="container mainApp">
+    First name: <input type="text" id="fname" name="fname"><br>
+    <button id="submit">submit</button>
+
+  
     <!-- <script>
         $('#submit-btn').on('click',function(){
             
         });
     </script> -->
-    <script type="text/javascript" src="javascript/app.js"> </script>
+  
     <script type="text/javascript" src="http://api.eventful.com/js/api"></script>
+    <script src="./javascript/moment.js"></script>
+    <script type="text/javascript"
+              src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script type="text/javascript" src="javascript/app.js"> </script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initMap&libraries=places" async
+            defer></script> -->
 </body>
 
 </html>
