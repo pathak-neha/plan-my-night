@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function () {
 
 ///////////////////////////////// Initialize Firebase/////////////////////////////////////////////
@@ -480,18 +479,21 @@ $('#submit-btn').on('click', function (event) {
     return newArray;
 }
 
+$('#eventful-results').on('click', '.eventful-result', function() {
+  //  --click event, logs restaurants from Google Places within 1 km
+  //  based on 'data-location' attribute of clicked element
 
-
+  var loc = $(this).data('location').split(',');
+  getNearbyRestaurants(loc, 1000).then(function(response) {
+      console.log('onClick nearby restaurants response -----------------');
+      console.log(response);
+  })
+})
 
 // function initMap(){
     
 // }
 
-
-
-
-=======
->>>>>>> mark/places
 function getNearbyRestaurants(location, radius) {
     //  -- takes location [lat, lng] and radius (m)
     //  -- returns promise -- use .then() to get response
@@ -523,18 +525,6 @@ function getNearbyRestaurants(location, radius) {
         });
     };
 
-<<<<<<< HEAD
+
 });
-=======
-$('#div-test').on('click', function() {
-    //  --click event, returns restaurants from Google Places within 1 km
-    //  based on 'data-location' attribute of clicked element
 
-    var loc = $(this).data('location').split(',');
-    getNearbyRestaurants(loc, 1000).then(function(response) {
-        console.log('onClick nearby restaurants response -----------------');
-        console.log(response);
-    })
-})
-
->>>>>>> mark/places
