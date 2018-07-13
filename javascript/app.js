@@ -27,7 +27,7 @@ $('#search-btn').on('click', function (event) {
         app_key: eventfulKey,
         where: lat + ',' + lng,
         within: 25,
-        "date": "2018071900-2018081900", // temporary - to be linked to today's date 
+        "date": "Today",
         page_size: 25,
         sort_order: "popularity"
     };
