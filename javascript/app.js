@@ -376,6 +376,7 @@ $(document).ready(function () {
 
   var eventfulResultsArray;
   var locationsToMap = [];
+  var resultsMap;
 
   $('#events-submit-btn').on('click', function (event) {
     event.preventDefault();
@@ -400,7 +401,6 @@ $(document).ready(function () {
     EVDB.API.call("/events/search", oArgs, function (oData) {
       var result = oData;
       var eventsArray = result.events.event;
-      console.log(eventsArray);
       var newArray = convertEventful(eventsArray);
       eventfulResultsArray = newArray;
 
@@ -467,6 +467,18 @@ $(document).ready(function () {
         eventfulResultsArray[index].venue + '  </div><hr> </div>'
       )
 
+      var mapDiv = $('<div>');
+      mapDiv
+        .attr('id', 'resultsMap')
+        .css({height: '400px', width: '400px', 'background-color': 'red'});
+      mapDiv.appendTo($('#eventful-results'));
+
+      var thisMap = new google.maps.Map(document.getElementById('resultsMap'), {zoom: 12, center: {lat: testcoord[0], lng: testcoord[1]}});
+      var latlong = new google.maps.LatLng(eventfulResultsArray[index].location[0], eventfulResultsArray[index].location[1]);
+      var marker = new google.maps.Marker({position: latlong, map: thisMap});
+      resultsMap = thisMap;
+
+
       var newDiv = '<div><span>Nearby restaurants: </span></div>';
       $('#eventful-results').append(newDiv);
 
@@ -479,6 +491,8 @@ $(document).ready(function () {
         newDiv.html(content);
 
         $('#eventful-results').append(newDiv);
+
+        
       })
 
     })
@@ -489,10 +503,9 @@ $(document).ready(function () {
     var index = $(this).data('index');
     var newDiv = $('<div>');
 
-    var service = new google.maps.places.PlacesService(document.createElement('div'));
+    // var service = new google.maps.places.PlacesService(document.createElement('div'));
+    var service = new google.maps.places.PlacesService(resultsMap);
     service.getDetails({placeId: restaurantResultsArray[index].googleID}, function(response, status) {
-      console.log('details response -------------------');
-      console.log(response);
 
       newDiv.html('<div>' + response.formatted_address + '</div> <div>' + response.formatted_phone_number + '</div>');
 
@@ -504,15 +517,18 @@ $(document).ready(function () {
       console.log(locationsToMap);
     })
 
+    var latlong = new google.maps.LatLng(restaurantResultsArray[index].location[0], restaurantResultsArray[index].location[1]);
+    var marker = new google.maps.Marker({position: latlong , map: resultsMap});
+
     $(this).append(newDiv);
     $(this).append('<hr>');
     $(this).insertAfter($('.eventful-result'));
 
   })
 
-  // function initMap(){
+  function initMap(){
 
-  // }
+  }
 
   function getNearbyRestaurants(location, radius) {
     //  -- takes location [lat, lng] and radius (m)
