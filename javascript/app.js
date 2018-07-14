@@ -481,10 +481,22 @@ $(document).ready(function () {
   })
 
   $('#eventful-results').on('click', '.restaurant-result', function() {
+
     var index = $(this).data('index');
-    locationsToMap.push(restaurantResultsArray[index].location);
-    console.log('array for mapping----------');
-    console.log(locationsToMap);
+    var newDiv = $('<div>');
+
+    var service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.getDetails({placeId: restaurantResultsArray[index].googleID}, function(response, status) {
+      console.log('details response -------------------');
+      console.log(response);
+
+      newDiv.html('<div>' + response.formatted_address + '</div> <div>' + response.formatted_phone_number + '</div>');
+    })
+
+    $(this).append(newDiv);
+    $(this).append('<hr>');
+    $(this).insertAfter($('.eventful-result'));
+
   })
 
   // function initMap(){
@@ -507,13 +519,14 @@ $(document).ready(function () {
 
         if (status == 'OK') {
 
+          console.log(response);
           var returnArr = response.map(function (obj) {
 
             var newObj = {
               type: 'restaurant',
               name: obj.name,
               location: [obj.geometry.location.lat(), obj.geometry.location.lng()],
-              googleID: obj.id
+              googleID: obj.place_id
             }
             return newObj;
           })
