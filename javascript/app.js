@@ -424,6 +424,7 @@ $(document).ready(function () {
       var newObj = {
         name: obj.title,
         venue: obj.venue_name,
+        venue_address: obj.venue_address,
         venueURL: obj.venue_url,
         location: [obj.latitude, obj.longitude],
         startTime: obj.start_time,
@@ -447,7 +448,10 @@ $(document).ready(function () {
     var loc = $(this).data('location').split(',');
     var index = $(this).data('index');
 
-    locationsToMap.push(loc);
+    var locationObj = {
+      location: eventfulResultsArray[index].venue_address
+    }
+    locationsToMap.push(locationObj);
 
     getNearbyRestaurants(loc, 1000).then(function (response) {
       console.log('onClick nearby restaurants response -----------------');
@@ -481,10 +485,29 @@ $(document).ready(function () {
   })
 
   $('#eventful-results').on('click', '.restaurant-result', function() {
+
     var index = $(this).data('index');
-    locationsToMap.push(restaurantResultsArray[index].location);
-    console.log('array for mapping----------');
-    console.log(locationsToMap);
+    var newDiv = $('<div>');
+
+    var service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.getDetails({placeId: restaurantResultsArray[index].googleID}, function(response, status) {
+      console.log('details response -------------------');
+      console.log(response);
+
+      newDiv.html('<div>' + response.formatted_address + '</div> <div>' + response.formatted_phone_number + '</div>');
+
+      var locationObj = {
+        location: response.formatted_address
+      }
+      locationsToMap.push(locationObj);
+      console.log('locations to map -----------');
+      console.log(locationsToMap);
+    })
+
+    $(this).append(newDiv);
+    $(this).append('<hr>');
+    $(this).insertAfter($('.eventful-result'));
+
   })
 
   // function initMap(){
@@ -507,13 +530,14 @@ $(document).ready(function () {
 
         if (status == 'OK') {
 
+          console.log(response);
           var returnArr = response.map(function (obj) {
 
             var newObj = {
               type: 'restaurant',
               name: obj.name,
               location: [obj.geometry.location.lat(), obj.geometry.location.lng()],
-              googleID: obj.id
+              googleID: obj.place_id
             }
             return newObj;
           })
