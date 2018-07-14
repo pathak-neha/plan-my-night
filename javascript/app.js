@@ -424,6 +424,7 @@ $(document).ready(function () {
       var newObj = {
         name: obj.title,
         venue: obj.venue_name,
+        venue_address: obj.venue_address,
         venueURL: obj.venue_url,
         location: [obj.latitude, obj.longitude],
         startTime: obj.start_time,
@@ -447,7 +448,10 @@ $(document).ready(function () {
     var loc = $(this).data('location').split(',');
     var index = $(this).data('index');
 
-    locationsToMap.push(loc);
+    var locationObj = {
+      location: eventfulResultsArray[index].venue_address
+    }
+    locationsToMap.push(locationObj);
 
     getNearbyRestaurants(loc, 1000).then(function (response) {
       console.log('onClick nearby restaurants response -----------------');
@@ -491,6 +495,13 @@ $(document).ready(function () {
       console.log(response);
 
       newDiv.html('<div>' + response.formatted_address + '</div> <div>' + response.formatted_phone_number + '</div>');
+
+      var locationObj = {
+        location: response.formatted_address
+      }
+      locationsToMap.push(locationObj);
+      console.log('locations to map -----------');
+      console.log(locationsToMap);
     })
 
     $(this).append(newDiv);
