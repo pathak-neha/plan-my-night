@@ -374,6 +374,9 @@ $(document).ready(function () {
 
   // Eventful/Events Finder
 
+  var eventfulResultsArray;
+  var locationsToMap = [];
+
   $('#events-submit-btn').on('click', function (event) {
     event.preventDefault();
     $('#events').show();
@@ -399,11 +402,12 @@ $(document).ready(function () {
       var eventsArray = result.events.event;
       console.log(eventsArray);
       var newArray = convertEventful(eventsArray);
+      eventfulResultsArray = newArray;
 
       $('#eventful-results').empty();
       for (i = 0; i < newArray.length; i++) {
         $('#eventful-results').append(
-          '<div class="col eventful-result" id="result-card" data-location= "' + newArray[i].location + '"><img src="' +
+          '<div class="col eventful-result" id="result-card" data-index="' + i + '" data-location= "' + newArray[i].location + '"><img src="' +
           newArray[i].imageURL + '" alt="" > <div class="col-10"><h3>' +
           newArray[i].name + ' </h3><br> <strong> Venue: </strong>' +
           newArray[i].venue + '  </div><hr> </div>'
@@ -435,15 +439,52 @@ $(document).ready(function () {
     return newArray;
   }
 
+  var restaurantResultsArray;
   $('#eventful-results').on('click', '.eventful-result', function () {
     //  --click event, logs restaurants from Google Places within 1 km
     //  based on 'data-location' attribute of clicked element
 
     var loc = $(this).data('location').split(',');
+    var index = $(this).data('index');
+
+    locationsToMap.push(loc);
+
     getNearbyRestaurants(loc, 1000).then(function (response) {
       console.log('onClick nearby restaurants response -----------------');
       console.log(response);
+      restaurantResultsArray = response;
+
+      // render restaurant results to html
+      $('#eventful-results').empty();
+      $('#eventful-results').append(
+        '<div class="col eventful-result" id="result-card" data-index="' + index + '" data-location= "' + eventfulResultsArray[index].location + '"><img src="' +
+        eventfulResultsArray[index].imageURL + '" alt="" > <div class="col-10"><h3>' +
+        eventfulResultsArray[index].name + ' </h3><br> <strong> Venue: </strong>' +
+        eventfulResultsArray[index].venue + '  </div><hr> </div>'
+      )
+
+      var newDiv = '<div><span>Nearby restaurants: </span></div>';
+      $('#eventful-results').append(newDiv);
+
+      response.forEach(function(restaurant, j) {
+        var newDiv = $('<div>');
+        newDiv
+          .addClass('restaurant-result')
+          .attr('data-index', j);
+        var content = '<div><strong>' + restaurant.name + '</strong></div>';
+        newDiv.html(content);
+
+        $('#eventful-results').append(newDiv);
+      })
+
     })
+  })
+
+  $('#eventful-results').on('click', '.restaurant-result', function() {
+    var index = $(this).data('index');
+    locationsToMap.push(restaurantResultsArray[index].location);
+    console.log('array for mapping----------');
+    console.log(locationsToMap);
   })
 
   // function initMap(){
@@ -465,12 +506,13 @@ $(document).ready(function () {
       }, function (response, status) {
 
         if (status == 'OK') {
-          console.log(response);
+
           var returnArr = response.map(function (obj) {
 
             var newObj = {
               type: 'restaurant',
               name: obj.name,
+              location: [obj.geometry.location.lat(), obj.geometry.location.lng()],
               googleID: obj.id
             }
             return newObj;
