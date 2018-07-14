@@ -333,6 +333,7 @@ $(document).ready(function () {
 
   // Get current address
 
+  var searchAddress;
   function getCurrentAddress(location) {
     currgeocoder.geocode({
       'location': location
@@ -343,6 +344,8 @@ $(document).ready(function () {
         console.log(results[0]);
         $("#address").html(results[0].formatted_address);
         currentAddress = results[0].formatted_address;
+        $('#search-term').val(currentAddress);
+        searchAddress = currentAddress;
 
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
@@ -350,11 +353,17 @@ $(document).ready(function () {
     });
   };
 
+  $('#form-location').submit(function(event) {
+      event.preventDefault();
+  })
+
+
   ///////////////// End of Google Maps/Locator 
 
 
-  var latSearch = 0;
-  var lngSearch = 0;
+//   var latSearch = 0;
+//   var lngSearch = 0;
+
 
   function activateSearch() {
     var input = document.getElementById('search-term');
@@ -366,10 +375,10 @@ $(document).ready(function () {
       latSearch = place.geometry.location.lat();
       lngSearch = place.geometry.location.lng();
       console.log("name: " + name + " lat: " + latSearch + " lng: " + lngSearch)
+      searchAddress = place.formatted_address;
     });
+}
 
-
-  };
   activateSearch();
 
   // Eventful/Events Finder
@@ -384,10 +393,11 @@ $(document).ready(function () {
     var radius = 25;
     var eventfulKey = 'WF6X75bcVKvW7tKm';
     // var eventfulURL = 'http://api.eventful.com/json/events/search?app_key=' + eventfulKey + '&where=' + lat + ',' + long + '&within=' + radius;
-    console.log("submit lat: " + latSearch + "lng Submit: " + lngSearch)
+    // console.log("submit lat: " + latSearch + "lng Submit: " + lngSearch)
     var oArgs = {
       app_key: eventfulKey,
-      where: latSearch + ',' + lngSearch,
+    //   where: latSearch + ',' + lngSearch,
+      where: searchAddress,
       within: radius,
       "date": "TODAY",
       page_size: 25,
