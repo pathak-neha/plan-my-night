@@ -248,3 +248,10 @@ h1 {
     height: 100%;
     overflow: auto;
   }
+
+
+  #resultsMap {
+      height: 400px; 
+      width: 400px; 
+      /* background-color: red; */
+  }

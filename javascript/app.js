@@ -470,12 +470,18 @@ $(document).ready(function () {
       var mapDiv = $('<div>');
       mapDiv
         .attr('id', 'resultsMap')
-        .css({height: '400px', width: '400px', 'background-color': 'red'});
       mapDiv.appendTo($('#eventful-results'));
 
-      var thisMap = new google.maps.Map(document.getElementById('resultsMap'), {zoom: 12, center: {lat: testcoord[0], lng: testcoord[1]}});
+      var startcoord = new google.maps.LatLng(43.642721, -79.387046);
+      var thisMap = new google.maps.Map(document.getElementById('resultsMap'), {zoom: 12, center: startcoord});
       var latlong = new google.maps.LatLng(eventfulResultsArray[index].location[0], eventfulResultsArray[index].location[1]);
       var marker = new google.maps.Marker({position: latlong, map: thisMap});
+      var markerInfo = new google.maps.InfoWindow({
+          content: eventfulResultsArray[index].name
+      })
+      marker.addListener('click', function() {
+        markerInfo.open(thisMap, marker);
+      });
       resultsMap = thisMap;
 
 
@@ -519,6 +525,12 @@ $(document).ready(function () {
 
     var latlong = new google.maps.LatLng(restaurantResultsArray[index].location[0], restaurantResultsArray[index].location[1]);
     var marker = new google.maps.Marker({position: latlong , map: resultsMap});
+    var markerInfo = new google.maps.InfoWindow({
+        content: restaurantResultsArray[index].name
+    })
+    marker.addListener('click', function() {
+      markerInfo.open(resultsMap, marker);
+    });
 
     $(this).append(newDiv);
     $(this).append('<hr>');
