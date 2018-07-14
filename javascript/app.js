@@ -375,6 +375,8 @@ $(document).ready(function () {
   // Eventful/Events Finder
 
   var eventfulResultsArray;
+  var locationsToMap = [];
+
   $('#events-submit-btn').on('click', function (event) {
     event.preventDefault();
     $('#events').show();
@@ -445,6 +447,8 @@ $(document).ready(function () {
     var loc = $(this).data('location').split(',');
     var index = $(this).data('index');
 
+    locationsToMap.push(loc);
+
     getNearbyRestaurants(loc, 1000).then(function (response) {
       console.log('onClick nearby restaurants response -----------------');
       console.log(response);
@@ -477,7 +481,10 @@ $(document).ready(function () {
   })
 
   $('#eventful-results').on('click', '.restaurant-result', function() {
-
+    var index = $(this).data('index');
+    locationsToMap.push(restaurantResultsArray[index].location);
+    console.log('array for mapping----------');
+    console.log(locationsToMap);
   })
 
   // function initMap(){
@@ -499,12 +506,13 @@ $(document).ready(function () {
       }, function (response, status) {
 
         if (status == 'OK') {
-          console.log(response);
+
           var returnArr = response.map(function (obj) {
 
             var newObj = {
               type: 'restaurant',
               name: obj.name,
+              location: [obj.geometry.location.lat(), obj.geometry.location.lng()],
               googleID: obj.id
             }
             return newObj;
