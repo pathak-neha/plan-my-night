@@ -464,8 +464,7 @@ $(document).ready(function () {
     locationsToMap.push(locationObj);
 
     getNearbyRestaurants(loc, 1000).then(function (response) {
-      console.log('onClick nearby restaurants response -----------------');
-      console.log(response);
+
       restaurantResultsArray = response;
 
       // render restaurant results to html
@@ -568,7 +567,6 @@ $(document).ready(function () {
 
         if (status == 'OK') {
 
-          console.log(response);
           var returnArr = response.map(function (obj) {
 
             var newObj = {
