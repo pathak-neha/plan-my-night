@@ -132,6 +132,7 @@ $(document).ready(function () {
         $("#quickstart-sign-in-google").show()
         $("#quickstart-sign-in-face").hide()
         $("#mainApp").show();
+        $('#welcome').hide();
       } else {
         $('#quickstart-sign-in-status-face').text('Signed out');
         $('#quickstart-sign-in-face').text('Facebook Sign In');
@@ -142,6 +143,7 @@ $(document).ready(function () {
         $(".facebook").hide();
         $("#quickstart-sign-in-google").show()
         $("#mainApp").hide();
+        $('#welcome').show();
       }
 
       $("#quickstart-sign-in-face").prop("disabled", false);
@@ -155,6 +157,7 @@ $(document).ready(function () {
     initAppGoogle();
     initAppFace();
     initMap3();
+    $('#welcome').show();
   };
 
 
