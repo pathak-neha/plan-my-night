@@ -63,6 +63,7 @@ $(document).ready(function () {
         $(".google").show();
         $(".facebook").hide();
         $("#quickstart-sign-in-face").hide();
+        $('#welcome').hide();
       } else {
         $('#quickstart-sign-in-status-google').text("Signed out");
         $('#quickstart-sign-in-google').text("Google Sign In");
@@ -72,6 +73,7 @@ $(document).ready(function () {
         $(".google").hide();
         $(".facebook").show();
         $("#quickstart-sign-in-face").show();
+        $('#welcome').show();
       }
     });
     document.getElementById('quickstart-sign-in-google').addEventListener('click', toggleSignInGoogle, false);
@@ -157,7 +159,6 @@ $(document).ready(function () {
     initAppGoogle();
     initAppFace();
     initMap3();
-    $('#welcome').show();
   };
 
 
