@@ -105,6 +105,7 @@ section {
     height: 400px; 
     width: 400px;
     margin: 0 auto;
+    color: black;
 }
 
 #map-main {
