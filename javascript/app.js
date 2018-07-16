@@ -379,7 +379,6 @@ $(document).ready(function () {
     });
 }
 
-<<<<<<< HEAD
   activateSearch();
 
   // Eventful/Events Finder
@@ -589,7 +588,6 @@ $(document).ready(function () {
 
 });
 
-=======
 function geoFire_set(resultsArray, nameProperty, latProperty, lngProperty) {
     //  -- converts results array to an object and saves to a geoFire instance
     //  -- first parameter is a results array
@@ -647,4 +645,3 @@ function findMidpoint(location1, location2) {
 
     return midpoint;
 }
->>>>>>> mark/geofire
