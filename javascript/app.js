@@ -400,6 +400,7 @@ $(document).ready(function () {
 
   $('#events-submit-btn').on('click', function (event) {
     event.preventDefault();
+    $('.to-hide').hide();
     $('#events').show();
     var radius = 25;
     var eventfulKey = 'WF6X75bcVKvW7tKm';
@@ -427,12 +428,13 @@ $(document).ready(function () {
       eventfulResultsArray = newArray;
 
       $('#eventful-results').empty();
+      $('#eventful-results').append('<h3>Events Nearby:</h3>');
       for (i = 0; i < newArray.length; i++) {
         $('#eventful-results').append(
-          '<div class="col eventful-result" id="result-card" data-index="' + i + '" data-location= "' + newArray[i].location + '"><img src="' +
-          newArray[i].imageURL + '" alt="" > <div class="col-10"><h3>' +
-          newArray[i].name + ' </h3><br> <strong> Venue: </strong>' +
-          newArray[i].venue + '  </div><hr> </div>'
+          '<div class="eventful-result clearfix" id="result-card" data-index="'+ i + '" data-location= "'
+          + newArray[i].location + '"><img class="res-img" src="' +newArray[i].imageURL + '" alt="" ><h4>' +
+          newArray[i].name + ' </h4><strong> Venue: </strong>' +
+          newArray[i].venue + '  </div><hr>'
         )
       }
     });
@@ -482,10 +484,10 @@ $(document).ready(function () {
       // render restaurant results to html
       $('#eventful-results').empty();
       $('#eventful-results').append(
-        '<div class="col eventful-result" id="result-card" data-index="' + index + '" data-location= "' + eventfulResultsArray[index].location + '"><img src="' +
-        eventfulResultsArray[index].imageURL + '" alt="" > <div class="col-10"><h3>' +
+        '<h3>Selected Event:</h3><div class="eventful-result clearfix" data-index="' + index + '" data-location= "' + eventfulResultsArray[index].location + '"><img class="res-img" src="' +
+        eventfulResultsArray[index].imageURL + '" alt="" ><h3>' +
         eventfulResultsArray[index].name + ' </h3><br> <strong> Venue: </strong>' +
-        eventfulResultsArray[index].venue + '  </div><hr> </div>'
+        eventfulResultsArray[index].venue + '  </div><br>'
       )
 
       var mapDiv = $('<div>');
@@ -506,15 +508,15 @@ $(document).ready(function () {
       resultsMap = thisMap;
 
 
-      var newDiv = '<div><span>Nearby restaurants: </span></div>';
+      var newDiv = '<div><h3>Nearby restaurants: </h3></div>';
       $('#eventful-results').append(newDiv);
 
       response.forEach(function(restaurant, j) {
-        var newDiv = $('<div>');
+        var newDiv = $('<div class="rest-sel">');
         newDiv
           .addClass('restaurant-result')
           .attr('data-index', j);
-        var content = '<div><strong>' + restaurant.name + '</strong></div>';
+        var content = '<div>' + restaurant.name + '</div>';
         newDiv.html(content);
 
         $('#eventful-results').append(newDiv);
@@ -549,7 +551,8 @@ $(document).ready(function () {
     marker.addListener('click', function() {
       markerInfo.open(resultsMap, marker);
     });
-
+    $(this).prepend('<br><h3>Selected Restaurant:</h3>');
+    $(this).removeClass('restaurant-result rest-sel');
     $(this).append(newDiv);
     $(this).append('<hr>');
     $(this).insertAfter($('.eventful-result'));

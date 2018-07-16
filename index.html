@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Plan My Night</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/reset.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="icon" type="image/png" href="./images/city/CN-Tower.png">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
 
     <!-- Firebase Reference -->
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
@@ -82,9 +83,20 @@
 
     <div class="row">
         <section id="location-input">
-            <h2>
-                Enter Location:
+            <h2 class="to-hide">
+                Welcome to Plan My Night!
             </h2>
+            <p>
+                <span class="white">
+                    <strong>Get a list of nearby events happening near you at the click of a button!
+                    <br>
+                    Once you've selected your event, get a list of restaurants to chose from, to complete your night.</strong>
+                </span>
+                <br>
+                <span class="white-2">
+                    Enter your location below to begin:
+                </span>
+            </p>
             <form id='form-location'>
                 <input id="search-term" class="text-input" type="text" placeholder="Enter address">
                 <br>
@@ -92,7 +104,7 @@
                 <br>
             </form>
             <br>
-            <div id="map-locator">
+            <div id="map-locator" class="to-hide">
                 <div class="clearfix:after" id="map-main"></div>
                 <p>
                     <span class="white-2">
@@ -107,12 +119,10 @@
 
     <div class="row">
         <section class="hidden" id="events">
-            <div class="row card">
-                <div class="col-12 py-4">
+            <div class="row">
                     <div id="eventful-results">
                         <!-- placeholder for results -->
                     </div>
-                </div>
             </div>
         </section>
     </div>
