@@ -63,6 +63,7 @@ $(document).ready(function () {
         $(".google").show();
         $(".facebook").hide();
         $("#quickstart-sign-in-face").hide();
+        $('#welcome').hide();
       } else {
         $('#quickstart-sign-in-status-google').text("Signed out");
         $('#quickstart-sign-in-google').text("Google Sign In");
@@ -72,6 +73,7 @@ $(document).ready(function () {
         $(".google").hide();
         $(".facebook").show();
         $("#quickstart-sign-in-face").show();
+        $('#welcome').show();
       }
     });
     document.getElementById('quickstart-sign-in-google').addEventListener('click', toggleSignInGoogle, false);
@@ -132,6 +134,7 @@ $(document).ready(function () {
         $("#quickstart-sign-in-google").show()
         $("#quickstart-sign-in-face").hide()
         $("#mainApp").show();
+        $('#welcome').hide();
       } else {
         $('#quickstart-sign-in-status-face').text('Signed out');
         $('#quickstart-sign-in-face').text('Facebook Sign In');
@@ -142,6 +145,7 @@ $(document).ready(function () {
         $(".facebook").hide();
         $("#quickstart-sign-in-google").show()
         $("#mainApp").hide();
+        $('#welcome').show();
       }
 
       $("#quickstart-sign-in-face").prop("disabled", false);
@@ -154,6 +158,7 @@ $(document).ready(function () {
   window.onload = function () {
     initAppGoogle();
     initAppFace();
+    initMap3();
   };
 
 
@@ -197,7 +202,6 @@ $(document).ready(function () {
   // Google Maps/Locator
   var Waypoints = [];
   var currentAddress;
-  // *** needs updating?
   var eventLocations = [{ location: 'Thornhill, ON' }, { location: 'Richmond Hill, ON' }, { location: 'Vaughan, ON' }];
   var Origin;
 
@@ -263,7 +267,7 @@ $(document).ready(function () {
   function initMap2() {
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 4,
-      center: { lat: 43.8205895, lng: -79.391605 }  // Richmondhill *** is this correct?
+      center: { lat: 43.8205895, lng: -79.391605 }  
     });
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -361,8 +365,8 @@ $(document).ready(function () {
   ///////////////// End of Google Maps/Locator 
 
 
-//   var latSearch = 0;
-//   var lngSearch = 0;
+  var latSearch = 0;
+  var lngSearch = 0;
 
 
   function activateSearch() {
@@ -376,10 +380,21 @@ $(document).ready(function () {
       lngSearch = place.geometry.location.lng();
       console.log("name: " + name + " lat: " + latSearch + " lng: " + lngSearch)
       searchAddress = place.formatted_address;
+
     });
 }
 
   activateSearch();
+
+  function initMap3() {
+    // map options - zoom and also location is centered on the lat/longitude
+    var options = {
+        zoom: 12,
+        center: { lat: 43.6532, lng: -79.3832 }
+    };
+    // this just adds a new map to your page
+    var mapMulti = new google.maps.Map(document.getElementById('map-main'), options);
+  };
 
   // Eventful/Events Finder
 
@@ -389,6 +404,7 @@ $(document).ready(function () {
 
   $('#events-submit-btn').on('click', function (event) {
     event.preventDefault();
+    $('.to-hide').hide();
     $('#events').show();
     var radius = 25;
     var eventfulKey = 'WF6X75bcVKvW7tKm';
@@ -416,12 +432,13 @@ $(document).ready(function () {
       eventfulResultsArray = newArray;
 
       $('#eventful-results').empty();
+      $('#eventful-results').append('<h3>Events Nearby:</h3>');
       for (i = 0; i < newArray.length; i++) {
         $('#eventful-results').append(
-          '<div class="col eventful-result" id="result-card" data-index="' + i + '" data-location= "' + newArray[i].location + '"><img src="' +
-          newArray[i].imageURL + '" alt="" > <div class="col-10"><h3>' +
-          newArray[i].name + ' </h3><br> <strong> Venue: </strong>' +
-          newArray[i].venue + '  </div><hr> </div>'
+          '<div class="eventful-result clearfix" id="result-card" data-index="'+ i + '" data-location= "'
+          + newArray[i].location + '"><img class="res-img" src="' +newArray[i].imageURL + '" alt="" ><h4>' +
+          newArray[i].name + ' </h4><strong> Venue: </strong>' +
+          newArray[i].venue + '  </div><hr>'
         )
       }
     });
@@ -471,10 +488,10 @@ $(document).ready(function () {
       // render restaurant results to html
       $('#eventful-results').empty();
       $('#eventful-results').append(
-        '<div class="col eventful-result" id="result-card" data-index="' + index + '" data-location= "' + eventfulResultsArray[index].location + '"><img src="' +
-        eventfulResultsArray[index].imageURL + '" alt="" > <div class="col-10"><h3>' +
+        '<h3>Selected Event:</h3><div class="eventful-result clearfix" data-index="' + index + '" data-location= "' + eventfulResultsArray[index].location + '"><img class="res-img" src="' +
+        eventfulResultsArray[index].imageURL + '" alt="" ><h3>' +
         eventfulResultsArray[index].name + ' </h3><br> <strong> Venue: </strong>' +
-        eventfulResultsArray[index].venue + '  </div><hr> </div>'
+        eventfulResultsArray[index].venue + '  </div><br>'
       )
 
       var mapDiv = $('<div>');
@@ -495,15 +512,15 @@ $(document).ready(function () {
       resultsMap = thisMap;
 
 
-      var newDiv = '<div><span>Nearby restaurants: </span></div>';
+      var newDiv = '<div><h3>Nearby restaurants: </h3></div>';
       $('#eventful-results').append(newDiv);
 
       response.forEach(function(restaurant, j) {
-        var newDiv = $('<div>');
+        var newDiv = $('<div class="rest-sel">');
         newDiv
           .addClass('restaurant-result')
           .attr('data-index', j);
-        var content = '<div><strong>' + restaurant.name + '</strong></div>';
+        var content = '<div>' + restaurant.name + '</div>';
         newDiv.html(content);
 
         $('#eventful-results').append(newDiv);
@@ -538,7 +555,8 @@ $(document).ready(function () {
     marker.addListener('click', function() {
       markerInfo.open(resultsMap, marker);
     });
-
+    $(this).prepend('<br><h3>Selected Restaurant:</h3>');
+    $(this).removeClass('restaurant-result rest-sel');
     $(this).append(newDiv);
     $(this).append('<hr>');
     $(this).insertAfter($('.eventful-result'));

@@ -5,13 +5,22 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Plan My Night</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/reset.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery.js"></script>
+    <link rel="icon" type="image/png" href="./images/city/CN-Tower.png">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+
     <!-- Firebase Reference -->
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
 
@@ -22,126 +31,126 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="text">
-                plan my night
-            </h1>
+
+    <div class="row header">
+        <div class="col-md-9">
+            <h1>plan my night</h1>
         </div>
-        <div class="header-2 hidden">
-            <h1 class="plan">plan my night</h1>
-            <div class="subtitle">
-                <div class="google">
-                    <div class="row card">
-                        <div class="col-sm profile">
-                            <img id="quickstart-image-google" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
-                        </div>
-                        <div class="col-sm profile">
-                            <span id="quickstart-sign-in-status-google"></span>
-                        </div>
-                        <div class="col-sm profile">
-                            <p id="quickstart-account-details-google"></p>
-                        </div>
-                    </div>
+
+        <div class="col-md-3 header-right">
+            <button type="button" class="btn btn-basic" data-toggle="collapse" data-target="#sign-in-bar">Toggle Sign-In</button>
+        </div>
+    </div>
+
+    <div class="collapse" id="sign-in-bar">
+        <div class="google">
+            <div class="sign-in-card">
+                <div class="col-sm profile">
+                    <img id="quickstart-image-google" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
                 </div>
-                <div class="facebook">
-                    <div class="row card">
-                        <div class="col-sm profile">
-                            <img id="quickstart-image" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
-                        </div>
-                        <div class="col-sm profile">
-                            <span id="quickstart-sign-in-status-face"></span>
-                        </div>
-                        <div class="col-sm profile">
-                            <p id="quickstart-account-details-face"></p>
-                        </div>
-                    </div>
+                <div class="col-sm profile">
+                    <span id="quickstart-sign-in-status-google"></span>
+                </div>
+                <div class="col-sm profile">
+                    <p id="quickstart-account-details-google"></p>
+                </div>
+            </div>
+        </div>
+        <div class="facebook">
+            <div class="sign-in-card">
+                <div class="col-sm profile">
+                    <img id="quickstart-image" class="card-img-top rounded-circle" alt="Card image cap" style="width: 5rem;">
+                </div>
+                <div class="col-sm profile">
+                    <span id="quickstart-sign-in-status-face"></span>
+                </div>
+                <div class="col-sm profile">
+                    <p id="quickstart-account-details-face"></p>
+                </div>
+            </div>
+        </div>
+        <div class="allLoginContents">
+            <div class="omb_login">
+                <div class="omb_socialButtons">
+                    <button class="btn btn-lg omb_btn-facebook" id="quickstart-sign-in-face">Facebook Sign In</button>
+                    <br>
+                    <br>
+                    <button class="btn btn-lg omb_btn-google" id="quickstart-sign-in-google">Google Sign In</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <section>
-        <div class="allLoginContents" id="login-grp">
-            <h2 id="login-text" class="justify-center">
-                LOGIN VIA:
-            </h2>
-
-            <div class="omb_login">
-                <div class="row omb_row-sm omb_socialButtons">
-                    <div class="col-xs-4">
-                        <button class="btn btn-lg omb_btn-facebook sign-in-btn" id="quickstart-sign-in-face">Facebook Sign In</button>
-                    </div><br>
-                    <div class="col-xs-4">
-                        <button class="btn btn-lg omb_btn-google sign-in-btn" id="quickstart-sign-in-google">Google Sign In</button>
-                    </div>
-                    <div class="col-xs-4">
-                    </div>
-                </div>
-            </div>
-
-            <!-- *** to fix this section of code -->
-            <!-- <div id="mainApp">
-                <p class="white">
-                    First name:
-                    <input type="text" id="fname" name="fname">
-                    <br>
-                    <button id="submit sign-in-btn">SUBMIT</button>
-                </p>
-            </div> -->
-        </div>
-        <br>
-
-        <div id="location-input">
-            <h2>
-                ENTER YOUR LOCATION HERE:
-            </h2>
-            <form id='form-location'>
-                <input id="search-term" class="text-input" type="text" placeholder="Enter address">
-                <button class="btn btn-basic justify-center" type='button' id="events-submit-btn">SUBMIT</button>
-                <br>
-            </form>
-            <br>
-            <div id="map-locator">
+    <div id="welcome">
+        <div class="row">
+            <section id="location-input">
+                <h2 class="to-hide">
+                    Welcome to Plan My Night!
+                </h2>
                 <p>
+                    <span class="white">
+                        <strong>Get a list of nearby events happening near you at the click of a button!
+                            <br> Once you've selected your event, get a list of restaurants to chose from, to complete your night.</strong>
+                    </span>
+                    <br>
+                </p>
+                <h3>Sign in to begin!</h3>
+            </section>
+        </div>
+    </div>
+
+    </div>
+    <div id="mainApp">
+        <div class="row">
+            <section id="location-input">
+                <h2 class="to-hide">
+                    Welcome to Plan My Night!
+                </h2>
+                <p>
+                    <span class="white">
+                        <strong>Get a list of nearby events happening near you at the click of a button!
+                            <br> Once you've selected your event, get a list of restaurants to chose from, to complete your night.</strong>
+                    </span>
+                    <br>
                     <span class="white-2">
-                        <strong>Current Location:</strong><br>
-                        <span id="address"></span>
-                        <br>
-                        <strong>Input Location:</strong>
+                        Enter your location below to begin:
                     </span>
                 </p>
-                <input id="currentAddress" type="text">
-                <button id="getCurrentLoc" class="btn btn-basic" type="button">SUBMIT</button>
-                <form id="locations">
-
+                <form id='form-location'>
+                    <input id="search-term" class="text-input" type="text" placeholder="Enter address">
+                    <br>
+                    <button class="btn btn-basic justify-center" type='button' id="events-submit-btn">SUBMIT</button>
+                    <br>
                 </form>
-                <p><span class="white-2" id="text2"></span></p>
-                <div id="map"></div>
-                <div id="right-panel">
+                <br>
+                <div id="map-locator" class="to-hide">
+                    <div class="clearfix:after" id="map-main"></div>
                     <p>
                         <span class="white-2">
-                    </span>
+                            <strong>Your Current Location Location Is:</strong>
+                            <br>
+                            <span id="address"></span>
+                        </span>
                     </p>
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
 
-
-    <section class="hidden" id="events">
-        <div class="row card">
-            <div class="col-12 py-4">
-                <div id="eventful-results">
-                    <!-- placeholder for results -->
+        <div class="row">
+            <section class="hidden" id="events">
+                <div class="row">
+                    <div id="eventful-results">
+                        <!-- placeholder for results -->
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
+    </div>
 
-    <script type="text/javascript" src="http://api.eventful.com/js/api"></script>
+    <script type="text/javascript" src="https://api.eventful.com/js/api"></script>
     <script src="./javascript/moment.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCt3T1qJigSQvbngfyTvWrGr75tEVpzHPM&libraries=places"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCt3T1qJigSQvbngfyTvWrGr75tEVpzHPM&libraries=places"></script>
+    <!-- <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&libraries=places"></script> -->
     <script type="text/javascript" src="javascript/app.js"> </script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initMap&libraries=places" async
             defer></script> -->
