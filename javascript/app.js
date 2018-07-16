@@ -401,7 +401,8 @@ $(document).ready(function () {
       within: radius,
       "date": "TODAY",
       page_size: 25,
-      sort_order: "popularity"
+      sort_order: "popularity",
+      scheme: 'https'
     }
 
     // display search message (bc API response can be slow)
@@ -443,7 +444,7 @@ $(document).ready(function () {
       if (obj.image !== null) {
         newObj.imageURL = obj.image.medium.url;
       } else {
-        newObj.imageURL = 'https://picsum.photos/128';
+        newObj.imageURL = 'https://picsum.photos/128?image=56';
       }
       return newObj;
     })
@@ -507,7 +508,6 @@ $(document).ready(function () {
 
         $('#eventful-results').append(newDiv);
 
-        
       })
 
     })
@@ -528,8 +528,6 @@ $(document).ready(function () {
         location: response.formatted_address
       }
       locationsToMap.push(locationObj);
-      console.log('locations to map -----------');
-      console.log(locationsToMap);
     })
 
     var latlong = new google.maps.LatLng(restaurantResultsArray[index].location[0], restaurantResultsArray[index].location[1]);
@@ -586,4 +584,3 @@ $(document).ready(function () {
   // End of Eventful/Events Finder
 
 });
-
