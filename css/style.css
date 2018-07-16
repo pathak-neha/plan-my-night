@@ -214,6 +214,10 @@ form {
     color: black;
 }
 
+#address {
+    color: black;
+}
+
 .omb_login .omb_socialButtons a {
 	color: white;  
 	opacity:0.9;
