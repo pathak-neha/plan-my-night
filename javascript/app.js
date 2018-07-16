@@ -401,7 +401,8 @@ $(document).ready(function () {
       within: radius,
       "date": "TODAY",
       page_size: 25,
-      sort_order: "popularity"
+      sort_order: "popularity",
+      scheme: 'https'
     }
 
     // display search message (bc API response can be slow)
@@ -443,7 +444,7 @@ $(document).ready(function () {
       if (obj.image !== null) {
         newObj.imageURL = obj.image.medium.url;
       } else {
-        newObj.imageURL = 'https://picsum.photos/128';
+        newObj.imageURL = 'https://picsum.photos/128?image=1075';
       }
       return newObj;
     })
