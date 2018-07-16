@@ -80,51 +80,51 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <section id="location-input">
-            <h2 class="to-hide">
-                Welcome to Plan My Night!
-            </h2>
-            <p>
-                <span class="white">
-                    <strong>Get a list of nearby events happening near you at the click of a button!
-                    <br>
-                    Once you've selected your event, get a list of restaurants to chose from, to complete your night.</strong>
-                </span>
-                <br>
-                <span class="white-2">
-                    Enter your location below to begin:
-                </span>
-            </p>
-            <form id='form-location'>
-                <input id="search-term" class="text-input" type="text" placeholder="Enter address">
-                <br>
-                <button class="btn btn-basic justify-center" type='button' id="events-submit-btn">SUBMIT</button>
-                <br>
-            </form>
-            <br>
-            <div id="map-locator" class="to-hide">
-                <div class="clearfix:after" id="map-main"></div>
+    <div id="mainApp">
+        <div class="row">
+            <section id="location-input">
+                <h2 class="to-hide">
+                    Welcome to Plan My Night!
+                </h2>
                 <p>
+                    <span class="white">
+                        <strong>Get a list of nearby events happening near you at the click of a button!
+                            <br> Once you've selected your event, get a list of restaurants to chose from, to complete your night.</strong>
+                    </span>
+                    <br>
                     <span class="white-2">
-                        <strong>Your Current Location Location Is:</strong>
-                        <br>
-                        <span id="address"></span>
+                        Enter your location below to begin:
                     </span>
                 </p>
-            </div>
-        </section>
-    </div>
+                <form id='form-location'>
+                    <input id="search-term" class="text-input" type="text" placeholder="Enter address">
+                    <br>
+                    <button class="btn btn-basic justify-center" type='button' id="events-submit-btn">SUBMIT</button>
+                    <br>
+                </form>
+                <br>
+                <div id="map-locator" class="to-hide">
+                    <div class="clearfix:after" id="map-main"></div>
+                    <p>
+                        <span class="white-2">
+                            <strong>Your Current Location Location Is:</strong>
+                            <br>
+                            <span id="address"></span>
+                        </span>
+                    </p>
+                </div>
+            </section>
+        </div>
 
-    <div class="row">
-        <section class="hidden" id="events">
-            <div class="row">
+        <div class="row">
+            <section class="hidden" id="events">
+                <div class="row">
                     <div id="eventful-results">
                         <!-- placeholder for results -->
                     </div>
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script type="text/javascript" src="https://api.eventful.com/js/api"></script>
