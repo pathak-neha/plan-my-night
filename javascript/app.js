@@ -467,7 +467,6 @@ $(document).ready(function () {
     getNearbyRestaurants(loc, 1000).then(function (response) {
 
       restaurantResultsArray = response;
-      // geoFire_set(response, 'name', 'location');
 
       // render restaurant results to html
       $('#eventful-results').empty();
@@ -585,32 +584,3 @@ $(document).ready(function () {
   // End of Eventful/Events Finder
 
 });
-
-// function geoFire_set(resultsArray, nameProperty, locProperty) {
-//     //  -- converts results array to an object and saves to a geoFire instance
-//     //  -- first parameter is a results array
-//     //  -- other parameters take strings identifying the name, location [lat, lng] property
-//     //  for this results set
-//     //  -- returns geofire object
-
-//     var newRef = firebase.database().ref('Geofire').push();
-//     var newGeoFireInstance = new GeoFire(newRef);
-
-//     var buildObject = new Object();
-//     resultsArray.forEach(function(newLocation, i) {
-//         coords = [parseFloat(newLocation[locProperty][0]), parseFloat(newLocation[locProperty][1])];
-//         buildObject[i] = coords;
-        
-//         firebase.database()
-//             .ref('Geofire/' + newRef.key + '/index/' + i)
-//             .set({name: newLocation[nameProperty]});
-//     })
-
-//     newGeoFireInstance
-//         .set(buildObject)
-//         .then(function() {
-//             console.log('New locations have been saved to firebase.');
-//         })
-
-//     return newGeoFireInstance;
-// }
