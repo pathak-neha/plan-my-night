@@ -154,6 +154,7 @@ $(document).ready(function () {
   window.onload = function () {
     initAppGoogle();
     initAppFace();
+    initMap3();
   };
 
 
@@ -197,7 +198,6 @@ $(document).ready(function () {
   // Google Maps/Locator
   var Waypoints = [];
   var currentAddress;
-  // *** needs updating?
   var eventLocations = [{ location: 'Thornhill, ON' }, { location: 'Richmond Hill, ON' }, { location: 'Vaughan, ON' }];
   var Origin;
 
@@ -263,7 +263,7 @@ $(document).ready(function () {
   function initMap2() {
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 4,
-      center: { lat: 43.8205895, lng: -79.391605 }  // Richmondhill *** is this correct?
+      center: { lat: 43.8205895, lng: -79.391605 }  
     });
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -361,8 +361,8 @@ $(document).ready(function () {
   ///////////////// End of Google Maps/Locator 
 
 
-//   var latSearch = 0;
-//   var lngSearch = 0;
+  var latSearch = 0;
+  var lngSearch = 0;
 
 
   function activateSearch() {
@@ -376,10 +376,21 @@ $(document).ready(function () {
       lngSearch = place.geometry.location.lng();
       console.log("name: " + name + " lat: " + latSearch + " lng: " + lngSearch)
       searchAddress = place.formatted_address;
+
     });
 }
 
   activateSearch();
+
+  function initMap3() {
+    // map options - zoom and also location is centered on the lat/longitude
+    var options = {
+        zoom: 12,
+        center: { lat: 43.6532, lng: -79.3832 }
+    };
+    // this just adds a new map to your page
+    var mapMulti = new google.maps.Map(document.getElementById('map-main'), options);
+  };
 
   // Eventful/Events Finder
 

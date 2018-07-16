@@ -1,14 +1,85 @@
-/* modifications to existing html tags */
 body {
-    display: flex;
-    flex-direction: column;
     text-align: center;
     background-color: #000033;
     background-repeat: no-repeat;
     background-size: 100%;
     background-image: url("../images/city/bg-03.png");
     background-attachment: fixed;
-    /* background-position: top 200%; */
+}
+
+.header {
+    width: 100%;
+    background: rgba(255, 102, 51, 0.4)
+}
+
+.header-right {
+    float: right;
+}
+
+section {
+    width: 100%;
+    max-width: 700px;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 0 auto;
+    margin-top: 30px;
+    background: rgba(0, 0, 33, 0.6);
+    border: 0.4rem white solid;
+}
+
+.container {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    text-align: left;
+}
+
+.card {
+    display: block;
+    text-align: left;
+}
+
+.profile{
+	text-align: center;
+}
+
+/* maps */
+#map {
+    height: 100%;
+    float: left;
+    width: 63%;
+    height: 100%;
+}
+
+#resultsMap {
+    height: 400px; 
+    width: 400px;
+}
+
+#map-main {
+    height: 200px;
+    width: 600px;
+}
+
+/* js toggle class */
+.hidden {
+    display: none;
+}
+
+/* text */
+h1 {
+    padding-top: 1rem;
+    line-height: 2.25rem;
+    font-family: 'Anton', sans-serif;
+    color: white;
+    font-size: 4rem;
+}
+
+h2 {
+    font-family: 'Anton', sans-serif;
+    color: whitesmoke;
+    font-size: 2rem;
 }
 
 p .white {
@@ -25,77 +96,51 @@ form {
     color: white;
 }
 
-h2 {
-    font-family: 'Anton', sans-serif;
-    color: grey;
+#search-term {
+    margin-top: 0.6rem;
 }
 
-section {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 700px;
+/* buttons */
+.btn-basic {
+    width: 150px;
     margin: 0 auto;
-    padding: 0.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    margin-top: 30px;
-    background: rgba(0, 0, 33, 0.6);
-    border-radius: 7px;
+    margin-top: 0.6rem;
+}
+    .btn-basic:hover{
+        background-color: rgb(255, 102, 51);
+        color: darkblue;
+    }
+
+    .btn-basic:active{
+        background-color: rgb(113, 48, 26);
+        color: white;
+    }
+
+.toggle-btn {
+    margin-top: 1rem;
 }
 
-/* js toggle class */
-.hidden {
-    display: none;
-}
-
-/* result cards */
+/* other content */
 .clearfix:after {
     content: "";
     display: table;
     clear: both;
 }
 
-.card {
-    display: block;
-    text-align: left;
+/* sign-in bar */
+#sign-in-bar {
+    position: absolute;
+    left: 80%;
+    top: 5%;
 }
 
-/* headers */
-
-h1 {
-    padding-top: 1rem;
-    /* text-shadow: 2px 2px 4px #000000; */
-    line-height: 2.25rem;
-    font-family: 'Anton', sans-serif;
-    color: white;
-}
-    h1 .plan {
-        font-size: 3rem;
-    }
-
-    h1 .subtitle {
-        float: right; 
-    }
-
-.header {
-    display: block;
+.sign-in-card {
+    width: 250px;
+    background-color: white;
+    border-radius: 7px;
+    color: black;
     text-align: center;
-    background: rgba(255, 102, 51, 0.4)
 }
-
-.text {
-    padding-top: 1rem;
-    line-height: 2.25rem;
-    font-size: 4rem;
-    text-align: center;
-    font-family: 'Anton', sans-serif;
-    color: white;
-}
-
-/* ----------- body elements ----------- */
-
-/* login screen */
 
 .omb_login .omb_socialButtons a {
 	color: white;  
@@ -123,12 +168,10 @@ h1 {
 }
 
 #quickstart-sign-in-face {
-    position: relative;
-
+    margin-top: 3rem;
 }
 #quickstart-sign-in-google {
-    position: relative;
-
+    margin-bottom: 3rem;
 }
 
 .omb_login .omb_loginOr {
@@ -164,32 +207,6 @@ h1 {
     color: red;
 }
 
-/* other */
-#location-input {
-    justify-content: center;
-};
-
-.btn-basic {
-    width: 150px;
-    margin: 0 auto;
-}
-    .btn-basic:hover{
-        background-color: rgb(255, 102, 51);
-        color: darkblue;
-    }
-
-    .btn-basic:active{
-        background-color: rgb(113, 48, 26);
-        color: white;
-    }
-
-.container {
-    display: block;
-    width: 100%;
-    max-width: 700px;
-    text-align: left;
-}
-
 /* media queries */
 
 @media (min-width: 768px) {
@@ -205,53 +222,3 @@ h1 {
 		margin-top:10px;
  	}		
 }
-
-.profile{
-	text-align: center;
-}
-
-
-#right-panel {
-    font-family: 'Roboto','sans-serif';
-    line-height: 30px;
-    padding-left: 10px;
-  }
-
-  #right-panel select, #right-panel input {
-    font-size: 15px;
-  }
-
-  #right-panel select {
-    width: 100%;
-  }
-
-  #right-panel i {
-    font-size: 12px;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  #map {
-    height: 100%;
-    float: left;
-    width: 63%;
-    height: 100%;
-  }
-  #right-panel {
-    float: right;
-    width: 34%;
-    height: 100%;
-  }
-  .panel {
-    height: 100%;
-    overflow: auto;
-  }
-
-
-  #resultsMap {
-      height: 400px; 
-      width: 400px; 
-      /* background-color: red; */
-  }
