@@ -16,7 +16,7 @@ Firstly, the APIs and libraries we used for the main functionality (in order of 
 
 Secondly, our RESTful app used a Firebase backend, to optimize the load time for get/post requests of individual units of information.
 
-**_The Team_**
+**_The Team_**  
 [Mark Prince](https://www.github.com/mrkprinc "View Profile")  
 [Tobi Akinwumi](https://www.github.com/akinwol "View Profile")  
 [Aboozar Mojdeh](https://www.github.com/aboozarmojdeh "View Profile")
