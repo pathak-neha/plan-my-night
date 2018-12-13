@@ -1,5 +1,5 @@
 ## Plan My Night
-Based in Toronto and looking for a quick plan for tonight? Plan My Night is single page web app to provide an easy way for a user to find a nearby event & restaurant happening today! Utilizing the Google Maps + Places libraries, and a Firebase back-end, this app is serverless in function, and the design is mobile-responsive, making this app optimal for use on both web and mobile devices.
+Based in Toronto and looking for a quick plan for tonight? [Plan My Night](https://pathak-neha.github.io/plan-my-night "View Live!") is single page web app to provide an easy way for a user to find a nearby event & restaurant happening today! Utilizing the Google Maps + Places libraries, and a Firebase back-end, this app is serverless in function, and the design is mobile-responsive, making this app optimal for use on both web and mobile devices.
 
 *_The Inspiration_*  
 This app was born of a UX need that my team and I identified. Most apps provide a single service - either find an event or a restaurant - and never as the result of a single search query. My team and I found that this was a problem that we personally faced, even though this is something that technology can easily solve.
